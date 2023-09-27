@@ -12,6 +12,7 @@
 2. 프로젝트 생성
     ```
     $ django-admin startproject 프로젝트폴더
+    $ django-admin startproject 프로젝트폴더. #.은 현재폴더
     # 마스터 폴더가 같이 생긴다.
     ```
     폴더 내부로 들어가서
@@ -93,6 +94,30 @@
 1. 프로젝트폴더/templates/base.html 생성
 2. base.htm > ! + tab > 중복내용 방지 위치에 `{% block content %} {% endblock content %}` 삽입
 3. 
+
+## DB
+> 과정 : python > ORM(object relational mapper) > SQL
+* 프로젝트폴더/앱/models.py
+* ~~프로젝트폴더/settings.py > INSTALLED_APPS <앱이름> 등록~~
+* 테이블 만들기 > 테이블 변수 종류 명확히 표시 예)integer, Float 등
+```
+# 1차 시안 개념
+
+from django.db import models
+
+class Student(models.Model): # 테이블명
+    # 컬럼 명 = 데이터 타입
+    # charfield만 길이값 삽입
+    name = models.CharField(max_length=10)
+    address = models.TextField()
+    major = models.CharField(max_length=100)
+    age = models.IntegerField()
+    cpga = models.FloatField()
+```
+* `$ python manage.py makemigrations <앱이름>` : 최종 시안 개념
+* `$ python manage.py migrate <앱이름>` > db.sqlite3 > 빈 테이블 생성
+* 수정 시 : models.py 수정 > makemigrations > migrate 
+
 
 
 
