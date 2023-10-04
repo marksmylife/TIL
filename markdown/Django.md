@@ -146,3 +146,27 @@ templates/앱폴더 > hello.html
 
 
 hello/<str:name>/', views.hello
+
+
+## 23-10-04
+* if __name__ == '__main__':
+    print('내가 부르는 이름)
+
+## 자료 입력
+1. python manage.py shell
+```
+이하 객체
+
+from students.models import Student
+s= Student()
+s.name = '김학생'
+~
+s.age = 25
+s.save() > 객체 > DB 저장 매서드
+```
+
+Student.objects.create(
+    name='박학생'
+)
+
+Student.objects.get(id==pk=1) #Primary key 
