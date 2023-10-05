@@ -1,8 +1,9 @@
 ## Django 흐름도
-![Django 흐름도](image.png)
+![Alt text](%EC%9E%A5%EA%B3%A0%ED%9D%90%EB%A6%84%EB%8F%84-1.JPG)
 * 요청은 URL!
 * View가 필요에 따라 분석해서
 * HTML로 응답함.
+* prject urls.py > app urls.py > view.def 
 
 ## 프로젝트 시작하기
 1. Dajngo 라이브러리 다운
@@ -30,6 +31,7 @@
 4. 페이지(앱) 만들기
     ```
     $ python manage.py startapp 앱
+    $ django-admin startapp <app>
     ```
 5. 프로젝트에 앱 등록
    1. `settings.py`의 INSTALLED_APPS에 `앱` 추가
@@ -59,41 +61,58 @@
     </body>
     </html>
    ```
-7. `앱/views.py`에 함수 추가
+2-7. `앱/views.py`에 함수 추가
     ```
     from django.shortcuts import render
     
-    def 함수명(request):
+    def 함수명(request, id):
         return render(request,'앱/함수명.html')
+        return HttpResponse('앱' + id)
 
     ```
-8. `앱/view.py`와 `앱/urls.py(생성)` 연결
+3- 1. `앱/view.py`와 `앱/urls.py(생성)` 연결
     ```
     from django.urls import path
     from . import views  #.은 현재폴더
     
     urlpatterns = [
-        path('', views.함수명),
+        path('<>', views.함수명),
     ]
+    * <> : 변수값 
     ```
-9. `앱 url`와 `프로젝트 url` 연결
+1-9. `앱 url`와 `프로젝트 url` 연결
     * `프로젝트폴더/urls.py` 에서
     ```
     from django.contrib import admin
-    from django.urls import path, include
-    # include를 통해서 앱 url 연결
+    from django.urls import path, **include**
+    # **include**를 통해서 앱 url 연결
 
     urlpatterns = [
         path('admin/', admin.site.urls),
-        path('', include('앱.urls')),
+        path('주소', include('위임app.urls')),
     ]
     ```
+    * 프로젝트 urls.py를 위임app에도 복사
+```
+from django.urls import path
+urlpatterns = [
+   
+]
+```
+
+프로젝트urls 내용 넣고 > 복사해서 앱urls 만들고 > 앱 view에 함수만들고 > 앱 urls랑 view 연결하고
+
+### 라우팅
+프로젝트urls의 path 주소 > 앱urls path 주소 > 앱view 함수 > 표현
+
+### CRUD
+Create Read Updatd Delete
 
 ## Base.html 연결하기
 > Base.html 이용하여 중복부분 제거 가능
 1. 프로젝트폴더/templates/base.html 생성
 2. base.htm > ! + tab > 중복내용 방지 위치에 `{% block content %} {% endblock content %}` 삽입
-3. 
+   
 
 ## DB
 > 과정 : python > ORM(object relational mapper) > SQL
@@ -117,11 +136,15 @@ class Student(models.Model): # 테이블명
 * `$ python manage.py makemigrations <앱이름>` : 최종 시안 개념
 * `$ python manage.py migrate <앱이름>` > db.sqlite3 > 빈 테이블 생성
 * 수정 시 : models.py 수정 > makemigrations > migrate 
+---
+
+`python manage.py <command>`
+
+`python manage.py runserver (Port.no)` : 서버 실행(취소 : ctrl + c)
 
 
 
-
-
+---
 ## 재정리 필요
 * python manage.py runserver # 서버 구동
 * python manage.py startapp first_app # 프로젝트 생성
@@ -170,3 +193,12 @@ Student.objects.create(
 )
 
 Student.objects.get(id==pk=1) #Primary key 
+
+
+23-10-05
+1. 프로젝트/마스터 urls.py에 path 작성(board)
+2. 탬플릿/보드 폴더 내에 html 생성
+3. 프로젝트/앱/urls.py에 path 작성
+4. view.py에서 함수 정의
+5. 셋팅 >'DIRS': [BASE_DIR / 'templates'],
+6. 마스터 템플릿폴더생성 > base.html 생성
