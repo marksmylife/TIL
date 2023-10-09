@@ -5,6 +5,149 @@
 * HTML로 응답함.
 * prject urls.py > app urls.py > view.def 
 
+
+## C R U D
+1. <프로젝트> 생성
+    ```
+    django-admin startproject <프로젝트>
+    ```
+2. <앱> 생성
+    ```python
+    python manage.py startapp <앱>
+    ```
+3. <프로젝트> 폴더 → setting.py
+    ```python
+   INSTALLED_APPS = [
+    '<앱>',
+    ]
+    ```
+4. migrate 실행
+    ```python
+    python manage.py makemigrations <앱> : 최종 시안 개념
+    python manage.py migrate <앱> > db.sqlite3 > 빈 테이블 생성
+    ```
+5. <프로젝트> 폴더 → urls.py
+    ```python
+    from django.urls import path, **include**
+
+    urlpatterns = [
+        path('<도메인>/', include('<앱>.urls')),
+    ]
+    ```
+6. <앱> 폴더 → urls.py 생성
+    ```python
+    from django.urls import path
+    from . import views
+    
+    # URL을 변수로 사용하기 => app_name:name 
+    app_name = 'crud'
+    
+    urlpatterns = [
+        # /univ/new/
+        path('new/', views.new, name='new'),  # crud:new
+        # /univ/create/
+        path('create/', views.create, name='create'),  # crud:create
+        # /univ/
+        path('', views.index, name='index'),  # crud:index
+        # /univ/1/
+        path('<int:pk>/', views.detail, name='detail'),  # crud:detail
+        # /univ/1/edit/
+        path('<int:pk>/edit/', views.edit, name='edit'),  # crud:edit
+        # /univ/1/update/
+        path('<int:pk>/update/', views.update, name='update'),  # crud:update
+        # /univ/1/delete/
+        path('<int:pk>/delete/', views.delete, name='delete'),  # crud:delete
+    ]
+    ```
+7. <앱> 폴더 > views.py 함수 생성
+    ```python
+    from django.shortcuts import render, redirect
+    from .models import Student
+
+    def new(request):
+        # 새로운 student 를 생성하기 위한 <form>(HTML) => 작성데이터는 create 함수로 보내야 함
+        return render(request, 'crud/new.html')
+
+    def create(request):
+        # new.html 에서 넘어온 데이터를 실제 저장
+        student = Student()
+        student.name = request.GET['student_name']
+        student.age = request.GET['student_age']
+        student.major = request.GET['student_major']
+        student.description = request.GET['student_description']
+        student.save()  # 저장 됨! => id(pk)가 생김
+
+        return redirect('crud:detail', student.pk)
+        # return redirect(f'/school/{student.pk}/')
+
+    def index(request):
+        # 전체 학생 목록 확인
+        students = Student.objects.all()
+        return render(request, 'crud/index.html', {
+            'students': students,
+        })
+
+    def detail(request, pk):
+        # 학생 상세 정보 확인
+        student = Student.objects.get(pk=pk)
+        return render(request, 'crud/detail.html', {
+            'student': student,
+        })
+
+    def edit(request, pk):
+        # student 를 수정하기 위한 <form>(HTML) => 작성데이터는 update 함수로 보내야 함
+        student = Student.objects.get(pk=pk)
+        return render(request, 'crud/edit.html', {
+            'student': student,
+        })
+
+    def update(request, pk):
+        # edit.html 에서 넘어온 데이터를 실제 저장
+        student = Student.objects.get(pk=pk)
+        student.name = request.GET['student_name']
+        student.age = request.GET['student_age']
+        student.major = request.GET['student_major']
+        student.description = request.GET['student_description']
+        student.save() 
+        return redirect('crud:detail', student.pk)
+
+    def delete(request, pk):
+        # URL 에 넘어온 pk 에 해당하는 학생정보 삭제
+        student = Student.objects.get(pk=pk)
+        student.delete()
+        # view 에서 redirect => '<app_name>:<name>'
+        return redirect('crud:index')
+
+        # DTL(템플릿)  {% url '<app_name>:<name>' %}
+    ```
+8. <프로젝트> 폴더 > templates 폴더 생성 > base.html 생성
+    ```python
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Document</title>
+    </head>
+    <body>
+    
+      <nav>
+        <ul>
+          <li>
+            <a href="{% url "crud:index" %}">Index</a>
+          </li>
+          <li>
+            <a href="{% url "crud:new" %}">New</a>
+          </li>
+        </ul>
+      </nav>
+    
+        {% block content %}{% endblock content %}
+    </body>
+    </html>
+    ```
+9. <앱> > templates 폴더 생성 > <앱> 폴더 생성 > html 생성
+---
 ## 프로젝트 시작하기
 1. Dajngo 라이브러리 다운
     ```
@@ -192,8 +335,8 @@ Student.objects.create(
     name='박학생'
 )
 
-Student.objects.get(id==pk=1) #Primary key 
-
+* Student.objects.get(id==pk=1) #Primary key 
+* label for, id 와 name은 다름 / 서버측에선 name을 받음
 
 23-10-05
 1. 프로젝트/마스터 urls.py에 path 작성(board)
@@ -202,3 +345,14 @@ Student.objects.get(id==pk=1) #Primary key
 4. view.py에서 함수 정의
 5. 셋팅 >'DIRS': [BASE_DIR / 'templates'],
 6. 마스터 템플릿폴더생성 > base.html 생성
+
+
+23-10-06
+1. models.py에 Class 생성
+2. urls.py에 path 작성
+3. views.py
+4. 탬플릿
+5. 각 html 작성
+![Alt text](image-1.png)
+
+* 중복방지 : name
