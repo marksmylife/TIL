@@ -44,7 +44,7 @@
     
     urlpatterns = [
         # /univ/new/
-        path('new/', views.new, name='new'),  # crud:new
+        path('new/', views.new, name='new'),  # crud:new(패턴네임)
         # /univ/create/
         path('create/', views.create, name='create'),  # crud:create
         # /univ/
@@ -356,3 +356,78 @@ Student.objects.create(
 ![Alt text](image-1.png)
 
 * 중복방지 : name
+
+
+23-10-10
+* POST
+  * Django의 CSRF(크로스 사이트 요청 위조) 보호와 같은 다른 보안 기능을 결합하여 더 많은 접근 제어를 제공
+  * 시스템의 상태를 변경할 수 있는 요청
+  * 예) 데이터베이스에서 변경을 가하는 요청과 같은 경우 / C, U, D
+* GET
+  * 웹 검색 양식과 같은 것에 적합
+  * 예) 스템의 상태를 변경하지 않는 요청에만 사용 / R
+* FORM
+  * <앱> 폴더 → forms.py 생성
+    ```python
+    from django import forms
+    from .models import Article
+    # 핸드폰 케이스 
+
+    class AriticleForm(forms.ModelForm):
+
+        class Meta:
+            model = Article #modes.py의 col 알아서 읽음
+            fields = '__all__'
+    ```
+  * views.py
+    ```python
+    from .forms import AriticleForm
+
+    def new(request):
+        form = AriticleForm() #input tag 대신 생성  
+        return render(request, 'board/new.html', {
+            'form' : form,
+        })
+
+    def edit(request, pk):
+        article = Article.objects.get(pk=pk)
+        form = AriticleForm(instance=article) #폼에 데이터 자동 입력
+        return render(request, 'board/edit.html', {
+            'article': article,
+            'form' : form
+        })
+    ```
+  * new.html, edit.html
+    ```python
+    {{form.as_p}}
+    ```
+
+* 검증
+create,update 내용 적기
+```
+def update(request, pk):
+    article = Article.objects.get(pk=pk)
+    form = AriticleForm(data=request.POST, instance=article)
+
+    if form.is_vaild():
+        article = form.save()
+        return redirect('board:detail', article.pk)
+    # 유효하지 않은 데이터면 다시 써라!
+    else:
+        return render(request, 'board/edit.html', {
+            'form' : form
+        })
+```
+
+* 위젯
+class ArticleForm(forms.ModelForm):
+
+    title = forms.CharField()
+    content = forms.CharField(
+        min_length=5,
+        widget=forms.Textarea(
+            attrs={'class':'my-class'}
+        )
+
+
+* 요청, where, how
