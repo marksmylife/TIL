@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./shop.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+  <title>Document</title>
+
+  <style>
+    /* 네비게이션 바 배경색, 폰트, 여백 등 스타일 지정 */
+    .navbar {
+      background-color: #FFFFFF; /* 배경색 */
+      font-family: 'Arial', sans-serif; /* 폰트 */
+      padding: 10px 0; /* 위아래 여백 */
+    }
+
+    .nav-item{
+      margin-right: 20px;
+    }
+    
+    .nav-item.active .nav-link {
+      color: #007bff;
+      font-weight: bold;
+    }
+
+    .navbar-brand {
+      font-weight: bold; /* 로고 텍스트 굵게 */
+      color: #007bff; /* 로고 텍스트 색상 */
+      font-size: 1.5rem; /* 로고 텍스트 사이즈 */
+    }
+
+    
+    .navbar-nav .nav-item {
+      border-bottom: 1px solid #ddd; /* 목록 항목들의 하단에 선 추가 */
+      padding: 10px 20px; /* 각 목록 항목의 상하 여백 및 좌우 여백 설정 */
+    }
+
+    .navbar-nav .nav-link {
+      color: #333; /* 메뉴 항목 텍스트 색상 */
+      font-weight: bold; /* 메뉴 항목 텍스트 굵게 */
+    }
+
+    /* 폼 요소들의 간격 조정 */
+    form {
+      margin-bottom: 20px;
+    }
+
+    /* 선택 박스 스타일 변경 */
+    select {
+      padding: 5px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    /* 제출 버튼 디자인 변경 */
+    input[type="submit"] {
+      padding: 8px 15px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    /* 결과 테이블 */
+    table {
+      margin-left:auto; 
+      margin-right:auto;
+    }
+  
+    table, td, th {
+      border-collapse : collapse;
+      border : 1px solid black;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    main {
+      flex: 1;
+    }
+
+  
+  </style>
+</head>
+
+<body>
+  <nav class="navbar navbar-light navbar-expand-md">
+    <div class="container-fluid">
+    <a class="navbar-brand ms-5" href="http://127.0.0.1:8000/advertisement/"><Strong>AdTarget</Strong></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar1" aria-controls="navbar1" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbar1">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="http://127.0.0.1:8000/advertisement/service/">서비스 소개</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="http://127.0.0.1:8000/advertisement/data/">데이터 소개 및 현황 분석</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="http://127.0.0.1:8000/advertisement/service1">고객별 맞춤형 광고 알고리즘</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="http://127.0.0.1:8000/advertisement/service2">서비스별 타겟 고객 및 광고 송출 서비스 추천</a>
+        </li>
+      </ul>
+    </div>
+    </div>
+  </nav>
+
+  <header>
+    <div id="carouselExampleDark" class="carousel carousel-dark slide">
+      <div class="carousel-item active" data-bs-interval="10000">
+        <a href="data">
+          <img src="https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?q=80&w=1476&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" height = 900 class="d-block w-100" alt="...">
+        </a>
+        <div class="carousel-caption d-none d-md-block">
+          <h4 style="color: white;"><strong>데이터 소개 및 현황 분석</strong></h4>
+        </div>
+      </div>
+      <div class="carousel-item" data-bs-interval="2000">
+        <a href="service1">
+          <img src="https://advertisingweek.com/wp-content/uploads/2022/08/content-marketing-related-vector-illustration-flat-modern-design-vector-id1200957578.jpg" height = 900 class="d-block w-100" alt="...">
+        </a>
+        <div class="carousel-caption d-none d-md-block">
+          <h4><strong>고객별 맞춤형 광고 알고리즘</strong></h4>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <a href="service2">
+          <img src="https://thumbs.dreamstime.com/b/recommendation-word-cloud-concept-grey-background-88649745.jpg" height = 900 class="d-block w-100" alt="...">
+        </a>
+        <div class="carousel-caption d-none d-md-block">
+          <h4><strong>서비스별 타겟 및 광고 송출 서비스 추천</strong></h4>
+        </div>
+      </div>
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+</header>
+
+  <footer class="text-center mt-4">
+    <h1 style="font-size: 15px; color: gray;">데이터 분석&엔지니어 취업캠프(Python) 30회차</h1>
+    <h2 style="font-size: 15px; color: gray;">문제해결 빅데이터 활용 프로젝트</h2>
+    <h3 style="font-size: 15px; color: gray;">상부3조(최현민, 정혜원, 김수연, 김현, 최수정)</h3>
+
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>

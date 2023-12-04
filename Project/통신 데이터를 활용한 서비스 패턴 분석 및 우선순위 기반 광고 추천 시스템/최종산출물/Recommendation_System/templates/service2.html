@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./shop.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+  <title>Document</title>
+
+  <style>
+    /* 네비게이션 바 배경색, 폰트, 여백 등 스타일 지정 */
+    .navbar {
+      background-color: #FFFFFF; /* 배경색 */
+      font-family: 'Arial', sans-serif; /* 폰트 */
+      padding: 10px 0; /* 위아래 여백 */
+    }
+
+    .nav-item{
+      margin-right: 20px;
+    }
+    
+    .nav-item.active .nav-link {
+      color: #007bff;
+      font-weight: bold;
+    }
+
+    .navbar-brand {
+      font-weight: bold; /* 로고 텍스트 굵게 */
+      color: #007bff; /* 로고 텍스트 색상 */
+      font-size: 1.5rem; /* 로고 텍스트 사이즈 */
+    }
+
+    
+    .navbar-nav .nav-item {
+      border-bottom: 1px solid #ddd; /* 목록 항목들의 하단에 선 추가 */
+      padding: 10px 20px; /* 각 목록 항목의 상하 여백 및 좌우 여백 설정 */
+    }
+
+    .navbar-nav .nav-link {
+      color: #333; /* 메뉴 항목 텍스트 색상 */
+      font-weight: bold; /* 메뉴 항목 텍스트 굵게 */
+    }
+
+    /* 폼 요소들의 간격 조정 */
+    form {
+      margin-bottom: 20px;
+    }
+
+    /* 선택 박스 스타일 변경 */
+    select {
+      padding: 5px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    /* 제출 버튼 디자인 변경 */
+    input[type="submit"] {
+      padding: 8px 15px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    /* 결과 테이블 */
+    table {
+      margin-left:auto; 
+      margin-right:auto;
+    }
+  
+    table, td, th {
+      border-collapse : collapse;
+      border : 1px solid black;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    main {
+      flex: 1;
+    }
+
+  
+  </style>
+</head>
+
+<body>
+  <nav class="navbar navbar-light navbar-expand-md">
+    <div class="container-fluid">
+    <a class="navbar-brand ms-5" href="http://127.0.0.1:8000/advertisement/"><Strong>AdTarget</Strong></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar1" aria-controls="navbar1" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbar1">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="http://127.0.0.1:8000/advertisement/service/">서비스 소개</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="http://127.0.0.1:8000/advertisement/data/">데이터 소개 및 현황 분석</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="http://127.0.0.1:8000/advertisement/service1">고객별 맞춤형 광고 알고리즘</a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="http://127.0.0.1:8000/advertisement/service2">서비스별 타겟 고객 및 광고 송출 서비스 추천</a>
+        </li>
+      </ul>
+    </div>
+    </div>
+  </nav>
+
+  <header>
+    <div style="background-color: #CEECF5;" class="text-center w-100 p-2">
+      <h1><Strong style="font-size: 1.5rem;">서비스별 타겟 고객 및 광고 송출 서비스</Strong></h1>
+    </div>
+  <div class="container mt-5 md-4 mb-4 text-center" style="width: 700px;">
+    <div class="row">
+      <div class="col-12 border rounded border-primary border-2">
+        <p class="mt-5 mb-5" style="font-size: 17px;">
+          게임, 금융, 쇼핑, 동영상/방송, 유튜브, 넷플릭스, 배달 서비스 광고주분들을 위해 <br>서비스의 이용수가 가장 많은 타겟 고객의 자치구, 연령대, 성별을 우선순위 순으로 <br>정렬해드리며, 맞춤형 광고 송출 대상 서비스를 추천해드리는 시스템입니다.
+        </p>
+      </div>
+    </div>
+  </div>
+  </header>
+
+  <section class="d-flex flex-column justify-content-center align-items-center mt-3">
+    <form method="post" class="mt-4 p-4 border rounded">
+      {% csrf_token %}
+      <div class="row mb-3">
+      <div class="row mb-3">
+      <label for="서비스" class="col-xs-2 col-form-label text-center mb-3">서비스의 종류를 선택해주세요.</label><br>
+      <div class="select-container">
+      <select name='서비스' class="form-select">
+          <option value='배달 서비스'>배달 서비스</option>
+          <option value='금융 서비스'>금융 서비스</option>
+          <option value='게임 서비스'>게임 서비스</option>
+          <option value='넷플릭스'>넷플릭스</option>
+          <option value='쇼핑 서비스'>쇼핑 서비스</option>
+          <option value='유튜브'>유튜브</option>
+          <option value='동영상/방송 서비스'>동영상/방송 서비스</option>
+      </select>
+    </div>
+  </div>
+    <div class="text-center mb-3">
+      <input type="submit" value="Submit" class="btn btn-primary">
+    </div>
+    </div>
+    </form> 
+    {% if request.method == 'POST' %}
+    <hr>
+    <div class="container mt-2">
+      <h5 class="text-center mb-4"><strong>{{ request.POST.서비스 }}를 가장 많이 이용하는 고객은 {{ first_customer }}입니다.</strong></h5>
+      <h5 class="text-center mb-4"><strong>해당 고객에 대해 {{ request.POST.서비스 }}와 상관관계가 가장 높은 타서비스는 {{ top_service }}입니다.</strong></h5>
+      <h5 class="text-center mb-4">{{ request.POST.서비스 }}의 타겟 고객 우선순위와 타겟 고객별 광고 송출 서비스 추천 우선순위는 아래와 같습니다.</h5>
+    </div>
+    <div class="container mt-2 table-responsive">
+      <table style="width: 600px" class="table table-bordered border-primary text-center">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">타겟 고객 우선순위</th>
+            <th>{{ request.POST.서비스 }} 타겟 고객별 광고 송출 서비스 추천</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for target in targets %}
+          <tr>
+            <td rowspan="6">{{ target }}</td>
+            {% for service in first %}
+              <td> {{ service }}</td>
+            {% endfor %}
+          </tr>
+            {% for service in others %}
+              <tr>
+                <td>{{ service }}</td>
+              </tr>
+            {% endfor %}
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+{% endif %}
+
+
+  </section>
+
+  <footer class="text-center mt-4">
+    <h1 style="font-size: 15px; color: gray;">데이터 분석&엔지니어 취업캠프(Python) 30회차</h1>
+    <h2 style="font-size: 15px; color: gray;">문제해결 빅데이터 활용 프로젝트</h2>
+    <h3 style="font-size: 15px; color: gray;">상부3조(최현민, 정혜원, 김수연, 김현, 최수정)</h3>
+
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>
